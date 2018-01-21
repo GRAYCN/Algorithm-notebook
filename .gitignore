@@ -32,3 +32,7 @@
 *.app
 /*.layout
 /*.win
+/debug/Makefile.win
+/debug/PATB1010.cpp
+/debug/Project1.dev
+/debug/Project1.layout
