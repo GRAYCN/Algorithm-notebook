@@ -1,4 +1,6 @@
 //PATA1002
+//just for test
+//just for test
 #include <stdio.h>
 #define MAXSIZE 1005
 double a[MAXSIZE],b[MAXSIZE],c[MAXSIZE];
