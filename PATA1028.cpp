@@ -3,7 +3,6 @@
 #include <iostream>
 #include <cstring>
 #include <algorithm>
-#include <vector>
 using namespace std;
 struct Student {
 	int id;
@@ -29,9 +28,9 @@ int cmp(Student a,Student b) {
 	}
 }
 int main() {
-	scanf("%d%s",&n,&c);
+	scanf("%d%d",&n,&c);
 	for(int i=0; i<n; i++) {
-		scanf("%d %s %d",&stu[i].id,stu[i].name,&stu[i].grade);
+		scanf("%d%s%d",&stu[i].id,stu[i].name,&stu[i].grade);
 //		cin>>stu[i].id>>stu[i].name>>stu[i].grade;
 	}
 	sort(stu,stu+n,cmp);
