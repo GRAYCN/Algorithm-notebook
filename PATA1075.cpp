@@ -5,53 +5,75 @@ using namespace std;
 struct Man {
 	int uid;
 	int rank;
-	int score[5];
+	int score[8];
+	bool output;
+	int total;
+	int perfect;
 } p[10005];
-int s[5];
+int score[8];
 int n,k,m;
 
-//计算总分
-int getSum(Man a) {
-	int sum=0;
-	for(int i=0; i<k; i++) {
-		if(a.score[i]==-1)
-			sum+=0;
-		else sum+=a.score[i];
-	}
-	return sum;
-}
-
-int getAC(Man a) {
-	int sum=0;
-	for(int i=0; i<k; i++) {
-		if(a.score[i]==s[i])
-			sum++;
-	}
-	return sum;
-}
-
 int cmp(Man a,Man b) {
-	if(getSum(a)!=getSum(b)) return getSum(a) >getSum(b);
-	else if(getAC(a)!=getAC(b)) return getAC(a) > getAC(b);
+	if(a.output!=b.output) return a.output>b.output; 
+	else if(a.total!=b.total) return a.total > b.total;
+	else if(a.perfect!=b.perfect) return a.perfect > b.perfect;
 	else return a.uid<b.uid;
+}
+
+void init(){
+	for(int i=1;i<=n;i++){
+		for(int j=1;j<=k;j++){
+			p[i].score[j]=-2;
+		}
+	}
+}
+
+void handle(){
+	for(int i=1;i<=n;i++){
+		//cal the sum 
+		for(int j=1;j<=k;j++){
+			if(p[i].score[j]>=0) p[i].total+=p[i].score[j];
+			if(p[i].score[j]==score[j]) p[i].perfect++;
+		}
+	}	
 }
 
 int main() {
 	scanf("%d%d%d",&n,&k,&m);
-	for(int i=0; i<k; i++) {
-		scanf("%d",&s[i]);
+	for(int i=1; i<=k; i++) {
+		scanf("%d",&score[i]);
 	}
-	for(int i=1; i<=m; i++) {
-		int uid,pid,score;
-		scanf("%d%d%d",&uid,&pid,&score);			//规定某一题编译不通过或者没有提交时得分为0，实际得分为0的情况记作-1
+	init();		//init the score to -2 to dinstinguish from [-1,100]
+	for(int i=0; i<m; i++) {
+		int uid,pid,score_obtained;
+		scanf("%d%d%d",&uid,&pid,&score_obtained);//规定某一题编译不通过或者没有提交时得分为0，实际得分为0的情况记作-1
 		p[uid].uid=uid;
-		if(score == 0) score=-1;
-		else if(score == -1) score =0;
-		if(score>p[uid].score[pid])
-			p[uid].score[pid]=score;			//如何给数组元素赋初值？
+		if(score_obtained>=0)
+			p[uid].output=true;				//output
+		if(score_obtained>p[uid].score[pid])
+			p[uid].score[pid]=score_obtained;			//如何给数组元素赋初值？
 	}
-	sort(p+1,p+n+1,cmp);
+	handle();
+	sort(p+1,p+n+1,cmp);	//sort
+	int cnt=1;		
+	p[1].rank=1;
+	for(int i=2;i<=n;i++){		//rank
+		cnt++;
+		if(p[i].total<p[i-1].total){
+			p[i].rank=cnt;
+		}else p[i].rank=p[i-1].rank;
+	}
+	
 	for(int i=1;i<=n;i++){
-		printf("%d %d\n",p[i].uid,getSum(p[i]));
+		if(p[i].output==false) continue;
+		printf("%d %05d %d ",p[i].rank,p[i].uid,p[i].total);
+		for(int j=1;j<=k;j++){
+			if(p[i].score[j]>=0) cout<<p[i].score[j];
+			else if(p[i].score[j]==-1) cout<<"0";
+			else if(p[i].score[j]==-2) cout<<"-";
+			if(j!=k) cout<<" ";
+		}
+		cout<<endl;
 	}
 }
+

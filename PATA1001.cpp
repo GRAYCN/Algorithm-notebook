@@ -2,6 +2,9 @@
 #include <string>
 #include <algorithm>
 using namespace std;
+
+int num[10];
+
 int main() {
 	int a,b,c;
 	cin>>a>>b;
@@ -10,11 +13,14 @@ int main() {
 		cout<<'-';
 		c=-c;
 	}
-	string cstr=to_string(c);
-	for(int i=0;i<cstr.length();i++){
-		cout<<cstr[i];
-		if((cstr.length()-i-1)%3==0 && (cstr.length()-i-1)!=0 ){
-			cout<<',';
-		}
-	}	
+	//	string cstr=convert(c);
+	int len = 0;
+	do{
+		num[len++]=c%10;
+		c/=10;
+	}while(c);
+	for(int k=len-1;k>=0;k--){
+		cout<<num[k];
+		if(k>0 && k%3==0) cout<<",";
+	} 
 } 

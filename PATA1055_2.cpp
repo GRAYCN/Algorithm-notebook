@@ -35,10 +35,9 @@ int main() {
 		int count=0;
 		for(int j=0; j<n; j++) {
 			if(p[j].age>=min && p[j].age<=max ) {
+				printf("%s %d %d\n",p[j].name,p[j].age,p[j].worth);
 				count++;
-				if(count<=m) {
-					printf("%s %d %d\n",p[j].name,p[j].age,p[j].worth);
-				} else break;
+				if(count==m) break;
 			}
 		}
 		if(count==0)
