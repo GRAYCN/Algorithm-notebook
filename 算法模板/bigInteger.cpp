@@ -5,7 +5,7 @@
 using namespace std;
 
 struct bign{
-	int d[1000];
+	int d[1000];		//sometimes the size of this array can be larger.
 	int len;
 	bign(){
 		memset(d,0,sizeof(d));
@@ -13,7 +13,7 @@ struct bign{
 	}
 };
 
-bign change(char str[]){		//or string
+bign change(char str[]){		//or string recommend for string
 	bign a;
 	a.len=strlen(str);
 	for(int i=0;i<a.len;i++){

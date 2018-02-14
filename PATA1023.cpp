@@ -1,5 +1,6 @@
 
 //未完待续 段错误 
+// 2018-02-14 解决 
 #include<iostream>
 #include<string>
 #include<algorithm>
@@ -8,7 +9,7 @@
 using namespace std;
 
 struct bign {
-	int d[25];
+	int d[1000];
 	int len;
 	bign() {
 		memset(d,0,sizeof(d));
@@ -51,10 +52,10 @@ int main() {
 	bign b=a;
 	bign a2=add(a,b);
 	for(int i=0; i<a.len; i++) {
-		ca[a.d[i]-'0']++;
+		ca[a.d[i]]++;
 	}
 	for(int i=0; i<a2.len; i++) {
-		ca2[a2.d[i]-'0']++;
+		ca2[a2.d[i]]++;
 	}
 	//比较ca和ca2数组是否完全相等
 	bool flag = true;
