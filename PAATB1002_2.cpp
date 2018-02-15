@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 using namespace std;
+// macos
 int main() {
     string s;
     cin >> s;
