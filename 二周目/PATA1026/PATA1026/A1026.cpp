@@ -1,147 +1,127 @@
-//
-//  main.cpp
-//  PATA1026
-//
-//  Created by mac on 18/2/15.
-//  Copyright (c) 2018年 mac. All rights
-#include <iostream>
 #include <cstdio>
 #include <vector>
 #include <algorithm>
 #include <cmath>
 using namespace std;
-const int K=111;
-const int INF=1000000000;
-struct Player{
-    int arriveTime,startTime,trainTime;
-    bool isVIP;
-}newPlayer;
-
-struct Table{
-    int endTime,numServer;
-    bool isVIP;
-}table[K];
-vector<Player> player;
-
-int convertTime(int h, int m,int s){
-    return h*3600+m*60+s;
+struct person {
+    int arrive, start, time;
+    bool vip;
+}tempperson;
+struct tablenode {
+    int end = 8 * 3600, num;
+    bool vip;
+};
+bool cmp1(person a, person b) {
+    return a.arrive < b.arrive;
 }
-
-bool cmpArriveTime(Player a, Player b){
-    return a.arriveTime<b.arriveTime;
+bool cmp2(person a, person b) {
+    return a.start < b.start;
 }
-
-bool cmpStartTime(Player a, Player b){
-    return a.startTime<b.startTime;
+vector<person> player;
+vector<tablenode> table;
+void alloctable(int personid, int tableid) {
+    if(player[personid].arrive <= table[tableid].end)
+        player[personid].start = table[tableid].end;
+    else
+        player[personid].start = player[personid].arrive;
+    table[tableid].end = player[personid].start + player[personid].time;
+    table[tableid].num++;
 }
-
-int nextVIPPlayer(int VIPi){
-    VIPi++;
-    while (VIPi<player.size()&&player[VIPi].isVIP==0) {
-        VIPi++;
+int findnextvip(int vipid) {
+    vipid++;
+    while(vipid < player.size() && player[vipid].vip == false) {
+        vipid++;
     }
-    return VIPi;
+    return vipid;
 }
-
-void alloTable(int pID, int tID){
-    if (player[pID].arriveTime <= table[tID].endTime) {
-        player[pID].startTime=table[tID].endTime;
-    }else{
-        player[pID].startTime=player[pID].arriveTime;
-    }
-    table[tID].endTime=player[pID].startTime + player[pID].trainTime;
-}
-
 int main() {
-    int n,k,m,VIPtable;
-    cin>>n;
-    int stTime = convertTime(8, 0, 0);
-    int edTime = convertTime(21, 0, 0);
-    for (int i=0; i<n; i++) {
-        int h,m,s,trainTime,isVIP;
-        cin>>h>>m>>s>>trainTime>>isVIP;
-        newPlayer.arriveTime=convertTime(h, m, s);
-        newPlayer.startTime=edTime;
-        if(newPlayer.arriveTime>=edTime) continue;
-        newPlayer.trainTime= trainTime<=120 ? trainTime*60:7200;
-        newPlayer.isVIP=isVIP;
-        player.push_back(newPlayer);
+    int n, k, m, viptable;
+    scanf("%d", &n);
+    for(int i = 0; i < n; i++) {
+        int h, m, s, temptime, flag;
+        scanf("%d:%d:%d %d %d", &h, &m, &s, &temptime, &flag);
+        tempperson.arrive = h * 3600 + m * 60 + s;
+        tempperson.start = 21 * 3600;
+        if(tempperson.arrive >= 21 * 3600)
+            continue;
+        tempperson.time = temptime <= 120 ? temptime * 60 : 7200;
+        tempperson.vip = ((flag == 1) ? true : false);
+        player.push_back(tempperson);
     }
-    cin>>k>>m;
-    for (int i=1; i<=k; i++) {
-        table[i].endTime=stTime;
-        table[i].numServer=table[i].isVIP=0;
+    scanf("%d%d", &k, &m);
+    table.resize(k + 1);
+    for(int i = 0; i < m; i++) {
+        scanf("%d", &viptable);
+        table[viptable].vip = true;
     }
-    for (int i=0; i<m; i++) {
-        cin>>VIPtable;
-        table[VIPtable].isVIP=1;
-    }
-    
-    sort(player.begin(), player.end(), cmpArriveTime);
-    int i=0,VIPi=-1;
-    VIPi=nextVIPPlayer(VIPi);
-    while (i<player.size()) {
-        int idx=-1,minEndTime=INF;
-        for (int j=1; j<=k; j++) {
-            if (table[j].endTime<minEndTime) {
-                minEndTime=table[j].endTime;
-                idx=j;
+    sort(player.begin(), player.end(), cmp1);
+    int i = 0, vipid = -1;
+    vipid = findnextvip(vipid);
+    while(i < player.size()) {
+        int index = -1, minendtime = 999999999;
+        for(int j = 1; j <= k; j++) {
+            if(table[j].end < minendtime) {
+                minendtime = table[j].end;
+                index = j;
             }
         }
-        if(table[idx].endTime>=edTime) break;
-        if (player[i].isVIP && i<VIPi) {
+        if(table[index].end >= 21 * 3600)
+            break;
+        if(player[i].vip == true && i < vipid) {
+            i++;
             continue;
         }
-        if (table[idx].isVIP==1) {
-            if (player[i].isVIP==1) {
-                alloTable(i, idx);
-                if (VIPi==i) {
-                    VIPi=nextVIPPlayer(VIPi);
-                }
+        if(table[index].vip == true) {
+            if(player[i].vip == true) {
+                alloctable(i, index);
+//                if(vipid == i)
+                vipid = findnextvip(vipid);
                 i++;
-            }else{
-                if(VIPi<player.size() && player[VIPi].arriveTime<=table[idx].endTime){
-                    alloTable(VIPi, idx);
-                    VIPi=nextVIPPlayer(VIPi);
-                }else{
-                    alloTable(i, idx);
+            } else {
+                if(vipid < player.size() && player[vipid].arrive <= table[index].end) {
+                    alloctable(vipid, index);
+                    vipid = findnextvip(vipid);
+                } else {
+                    alloctable(i, index);
                     i++;
                 }
             }
-        }else{
-            if (player[i].isVIP==0) {
-                alloTable(i, idx);
+        } else {
+            if(player[i].vip == false) {
+                alloctable(i, index);
                 i++;
-            }else{
-                int VIPidx=-1,minVIPEndTime=INF;
-                for (int j=1; j<=k; j++) {
-                    if (table[j].isVIP && table[j].endTime<minVIPEndTime) {
-                        minVIPEndTime=table[j].endTime;
-                        VIPidx=j;
+            } else {
+                int vipindex = -1, minvipendtime = 999999999;
+                for(int j = 1; j <= k; j++) {
+                    if(table[j].vip == true && table[j].end < minvipendtime) {
+                        minvipendtime = table[j].end;
+                        vipindex = j;
                     }
                 }
-                if (VIPidx!=-1&&player[i].arriveTime>=table[VIPidx].endTime) {
-                    alloTable(i, VIPidx);
-                    if(VIPi==i) VIPi=nextVIPPlayer(VIPi);
+                if(vipindex != -1 && player[i].arrive >= table[vipindex].end) {
+                    alloctable(i, vipindex);
+//                    if(vipid == i)
+                        vipid = findnextvip(vipid);
                     i++;
-                }else{
-                    alloTable(i, idx);
-                    if(VIPi==i)VIPi=nextVIPPlayer(VIPi);
+                } else {
+                    alloctable(i, index);
+//                    if(vipid == i)
+                        vipid = findnextvip(vipid);
                     i++;
                 }
             }
         }
     }
-    sort(player.begin(), player.end(), cmpArriveTime);
-    for (i=0; i<player.size()&&player[i].startTime<edTime; i++) {
-        int t1=player[i].arriveTime;
-        int t2=player[i].startTime;
-        printf("%02d:%02d:%02d ",t1/3600,t1%3600/60,t1%60);
-        printf("%02d:%02d:%02d ",t2/3600,t2%3600/60,t2%60);
-        printf("%.0f\n",round((t2-t1)/60.0));
+    sort(player.begin(), player.end(), cmp2);
+    for(i = 0; i < player.size() && player[i].start < 21 * 3600; i++) {
+        printf("%02d:%02d:%02d ", player[i].arrive / 3600, player[i].arrive % 3600 / 60, player[i].arrive % 60);
+        printf("%02d:%02d:%02d ", player[i].start / 3600, player[i].start % 3600 / 60, player[i].start % 60);
+        printf("%.0f\n", round((player[i].start - player[i].arrive) / 60.0));
     }
-    for (i=1; i<=k; i++) {
-        printf("%d",table[i].numServer);
-        if(i<k)printf(" ");
+    for(int i = 1; i <= k; i++) {
+        if(i != 1)
+            printf(" ");
+        printf("%d", table[i].num);
     }
+    return 0;
 }
