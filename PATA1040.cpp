@@ -1,4 +1,5 @@
 //PATA1040
+// It's a little hard to understand. 
 #include<iostream>
 #include<string>
 using namespace std;

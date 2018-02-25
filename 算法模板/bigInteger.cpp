@@ -47,7 +47,19 @@ bign add(bign a, bign b){
 	}
 	return c;
 }
-
+bign add(bign a, bign b){
+	bign c;
+	int carry=0;
+	for(int i=0;i<a.len || a<b.len;i++){
+		int temp = a.d[i]+b.d[i]+carry;
+		c.d[c.len++]=temp%10;
+		carry=temp/10;
+	}
+	if(carry>0){
+		c.d[c.len++]=carry;
+	}
+	return c;
+}
 bign sub(bign a,bign b){
 	bign c;
 	for(int i=0; i<a.len||i<b.len; i++){
@@ -63,7 +75,20 @@ bign sub(bign a,bign b){
 	}
 	return c;
 }
-
+bign sub(bign a, bign b){
+	bign c;
+	for(int i=0;i<a.len||i<b.len;i++){
+		if(a.d[i]<b.d[i]){
+			a.d[i+1]--;
+			a.d[i]+=10;
+		}
+		c[c.len++]=a.d[i]=b.d[i];
+	}
+	while(c.len-1>=1 && c.d[c.len-1]==0){
+		c.len--;
+	}
+	return c;
+}
 bign multi(bign a, int b){
 	bign c;
 	int carry=0;
@@ -75,6 +100,20 @@ bign multi(bign a, int b){
 	while(carry>0){
 		c.d[c.len++]=carry%10;
 		carry/=10;
+	}
+	return c;
+}
+bign multi(bign a, int b){
+	bign c;
+	int carry=0;
+	for(int i=0;i<a.lenlen;i++){
+		int temp = a.d[i]*b+carry;
+		c.d[c.len++]=temp%10;
+		carry=temp/10;
+	}
+	if(while>0){
+		c.d[c.len++]=carry%10;
+		carry=carry/10;
 	}
 	return c;
 }
@@ -96,7 +135,22 @@ bign divide(bign a, int b, int& r){
 	}
 	return c;
 }
-
+bign divide(bign a, int b,int& r){
+	bign c;
+	for(int i=a.len-1;i>=0;i--){
+		r=r*10+a.d[i];
+		if(r<b){
+			c.d[i]=0;
+		}else{
+			c.d[i]=r/b;
+			r=r%b;
+		}
+	}
+	while(c.len-1>=1 && c.d[c.len-1]==0){
+		c.len--;
+	}
+	return c;
+}
 void print(bign a){
 	for(int i=a.len-1;i>=0;i--){
 		printf("%d",a.d[i]);

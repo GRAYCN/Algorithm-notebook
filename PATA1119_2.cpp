@@ -1,5 +1,4 @@
-//PATA1119 
-//PATA1119 
+//PATA1119_2 
 #include <cstdio>
 int pre[32];
 int post[32];

@@ -28,7 +28,7 @@ int main(){
 			continue;
 		}else{
 			bool flag=true;
-			for(int i=1;i<k;i++){
+			for(int i=1;i<=k;i++){
 				if(!e[a[i]][a[i+1]]){
 					printf("NO\n");
 					flag=false;
@@ -38,7 +38,7 @@ int main(){
 				}
 			}
 			if(!flag) continue;
-			for(int i=1;i<k;i++){
+			for(int i=1;i<=k;i++){
 				if(visit[i]!=0){
 					printf("NO\n");
 					flag=false;

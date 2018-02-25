@@ -1,5 +1,3 @@
-// 17' 
-//PATA1109
 #include<iostream>
 #include<cstdio>
 #include <string>
@@ -28,7 +26,7 @@ int main(){
 	}
 	sort(stu,stu+N,cmp);
 	//cal the number of the last row
-	int lastRowNum = (N%K==0 ? K:K+N%K);
+	int lastRowNum = (N%K==0 ? N/K:N/K+N%K);
 	res.resize(lastRowNum+1);
 	int num=0;
 	res[lastRowNum/2+1]=stu[num++].name;
@@ -47,13 +45,12 @@ int main(){
 		if(i<res.size()-1) printf(" ");
 	}
 	printf("\n");
-	int rowNum=K;
+	int rowNum=N/K;
 	res.resize(rowNum+1);
 	int cnt=lastRowNum;
-	for(int i=0;i<N/K-1;i++){
+	for(int i=0;i<K-1;i++){
 		cnt+=rowNum;
-		res[rowNum/2+1]=stu[num++].name;
-		j=1;
+		res[rowNum/2+1]=stu[num++].name; 
 		while(num<cnt){
 			res[rowNum/2+1-j]=stu[num++].name;	
 			if(num<cnt){
@@ -71,3 +68,17 @@ int main(){
 		//		num--;
 	}
 }
+
+/*
+10 4
+Tom 188
+Mike 170
+Eva 168
+Tim 160
+Joe 190
+Ann 168
+Bob 175
+Nick 186
+Amy 160
+John 159
+*/ 

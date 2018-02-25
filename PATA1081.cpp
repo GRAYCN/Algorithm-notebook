@@ -1,4 +1,6 @@
 //未完待续，第三个测试点无法通过 
+// 已经解决，错误原因是在输出前没有化简，这样如果只输入一个分数的时候没有
+// 就没有执行化简操作。 
 #include<iostream>
 #include<algorithm>
 #include<math.h>
@@ -36,6 +38,16 @@ Fraction reduction(Fraction a) {
 	return a;
 }
 
+void showResult(Fraction r){
+	r=reduction(r);
+	if(r.down==1) printf("%lld",r.up);	
+	else if( abs( r.up)>r.down ) 
+		printf("%lld %lld/%lld",r.up/r.down, abs(r.up)%r.down,r.down);
+	else{
+		printf("%lld/%lld",r.up,r.down);
+	}
+}
+
 int main() {
 	int n;
 	cin>>n;
@@ -45,6 +57,8 @@ int main() {
 		a = add(a,b);
 		a = reduction(a);
 	}
+//	showResult(a);
+	a=reduction(a);
 	if(a.down==1) printf("%lld\n",a.up);
 	else if(abs(a.up)>a.down) 
 		printf("%lld %lld/%lld",a.up/a.down,abs(a.up)%a.down,a.down);

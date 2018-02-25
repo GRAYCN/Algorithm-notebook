@@ -60,14 +60,15 @@ int main(){
 	}
 
 	for(int i=0;i<cnt;i++){
-		if(stu[i].Gp>=200 && stu[i].Gf>=60){
-			stu[i].output=1;
-			if(stu[i].Gm>stu[i].Gf){
+		
+		if(stu[i].Gm>stu[i].Gf){
 				//stu[i].G=ceil((float)stu[i].Gm*0.4+(float)stu[i].Gf*0.6);
-				stu[i].G=int(stu[i].Gm * 0.4 + stu[i].Gf * 0.6 + 0.5);
-			}else{
-				stu[i].G=stu[i].Gf;
-			}
+			stu[i].G=int(stu[i].Gm * 0.4 + stu[i].Gf * 0.6 + 0.5);
+		}else{
+			stu[i].G=stu[i].Gf;
+		}
+		if(stu[i].Gp>=200 && stu[i].G>=60){
+			stu[i].output=1;
 		}
 	}
 

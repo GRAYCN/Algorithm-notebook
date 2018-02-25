@@ -7,6 +7,7 @@
 #include<algorithm>
 #include<vector>
 #include <cmath>
+#include <cstdio>
 using namespace std;
 
 struct Node{
@@ -43,22 +44,21 @@ void check(int index){
 
 bool isSame(int index){
 	check(index);
-
 	int x=numOfBlack[0];
 	for(int i=0;i<numOfBlack.size();i++){
 		if(numOfBlack[i]!=x){
 			return false;
 		}
 	}
-
 	return true;
 }
 
 void DFS(int index){
-	if( (node[index].lchild!=-1 || node[index].rchild!=-1) ){
+	if(flag==false) return;
+	if( (node[index].lchild!=-1 || node[index].rchild!=-1) ){		//非叶子结点 
 		if(node[index].color=="red"){
 			int id1=node[index].lchild,id2=node[index].rchild;
-			if (node[id1].color=="red" ||node[id2].color=="red")
+			if ( ( id1!=-1 && node[id1].color=="red" ) || ( id2!=-1 && node[id2].color=="red" ) )
 			{
 				printf("No\n");
 				flag=false;
