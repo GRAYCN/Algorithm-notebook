@@ -67,7 +67,7 @@ void Dijkstra(int s) {
 			}
 		}
 	}
-	fill(vis,vis+N,false);
+//	fill(vis,vis+N,false);
 	DFS(D);
 }
 

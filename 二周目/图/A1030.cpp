@@ -80,6 +80,7 @@ int main() {
 	for (int i = path.size()-1; i>=0; i--) {
 		int id = path[i];
 		printf("%d ",id);
+	 } 
 	printf("%d %d",dis[D],minCost);
 	return 0;
 }

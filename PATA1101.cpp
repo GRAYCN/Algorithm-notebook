@@ -16,11 +16,11 @@ void init(){
 	for(int i=0;i<N;i++){
 		for(int j=0;j<N;j++){
 			if(j<i && a[j]>a[i]){
-				wrong[a[i]]=true;
+				wrong[i]=true;
 				break;
 			}	
 			if(j>i && a[j]<a[i]){
-				wrong[a[i]]=true;
+				wrong[i]=true;
 				break;			
 			}
 		}
@@ -33,7 +33,7 @@ int main(){
 	}
 	init();
 	for(int i=0;i<N;i++){
-		if(!wrong[a[i]]){
+		if(!wrong[i]){
 			result.push_back(a[i]);
 		}
 	}
@@ -45,4 +45,5 @@ int main(){
 			printf(" ");
 		}
 	}
+	printf("\n");
 }

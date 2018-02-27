@@ -12,6 +12,7 @@ using namespace std;
 
 int N,M,K;
 int e[maxn][maxn];
+vector<int> v[maxn];
 bool vis[maxn];
 int maxDepth=-1;
 set<int> result;
@@ -37,10 +38,12 @@ void DFS(int root,int index,int depth){
 }
 
 int main(){
-	cin>>N;
+//	cin>>N;
+	scanf("%d",&N);
 	for(int i=0;i<N-1;i++){
 		int a,b;
-		cin>>a>>b;
+//		cin>>a>>b;
+		scanf("%d%d",&a,&b);
 		e[a][b]=e[b][a]=1;
 	}
 	for (int i=1;i<=N;i++)
