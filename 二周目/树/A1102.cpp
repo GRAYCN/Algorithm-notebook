@@ -9,7 +9,7 @@ using namespace std;
 
 struct Node{
 	int lchild, rchild;
-	int data;
+//	int data;
 }node[15];
 bool isRoot[15];
 vector<int> in;

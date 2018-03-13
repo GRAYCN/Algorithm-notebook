@@ -20,14 +20,16 @@ int check(int i){
 } 
 int main() {
 	cin>>n;
-	if(n[0]=='-') {	//处理符号
-		v.push_back("Fu");
-		n.erase(n.begin());
-	}
 	if(n=="0"){
 		cout<<"ling"<<endl;
 		return 0;
 	}
+	
+	if(n[0]=='-') {	//处理符号
+		v.push_back("Fu");
+		n.erase(n.begin());
+	}
+
 	for(int i=0; i<n.length(); i++) {
 		int position=n.length()-i;
 		//处理0的情况

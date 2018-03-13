@@ -3,48 +3,41 @@
 #include<cstring>
 #include<algorithm>
 #include <string>
-#include <vector>
 using namespace std;
-#define maxn 100005
-vector<int> result;
-int N;
-int leftMax[maxn],rightMin[maxn],a[maxn];
-void init(){
-	fill(leftMax,leftMax+N,-1);
-	fill(rightMin,rightMin+N,1e9+1);
-}
+double a[1005],b[1005],c[2010];
 
 int main(){
-	scanf("%d",&N);
-	for(int i=0;i<N;i++){
-		scanf("%d",&a[i]);
+	int K;
+	cin>>K;
+	int exp;
+	double cof;
+	for(int i=0;i<K;i++){
+		cin>>exp>>cof;
+		a[exp]=cof;
 	}
-	init();
-	for(int i=1;i<N;i++){
-		if(a[i-1]>leftMax[i-1]){
-			leftMax[i]=a[i-1];
-		}else{
-			leftMax[i]=leftMax[i-1];
-		}
-	}	
-	for(int i=N-2;i>=0;i--){
-		if(a[i+1]<rightMin[i+1]){
-			rightMin[i]=a[i+1];
-		}else{
-			rightMin[i]=rightMin[i+1];
-		}
+	cin>>K;
+	for(int i=0;i<K;i++){
+		cin>>exp>>cof;
+		b[exp]=cof;
 	}
-	for(int i=0;i<N;i++){
-		if(a[i]>leftMax[i] && a[i]<rightMin[i]){
-			result.push_back(a[i]);
+	int cnt=0;
+	for(int i=0;i<=1000;i++){
+		for(int j=0;j<=1000;j++){
+			if(a[i]!=0 && b[j]!=0){
+				c[i+j]+=a[i]*b[j];
+			}
 		}
 	}
-	printf("%d\n",result.size());
-	for(int i=0;i<result.size();i++){
-		printf("%d",result[i]);
-		if(i!=result.size()-1){
-			printf(" ");
+	for(int i=0;i<=2000;i++){
+		if(c[i]!=0) cnt++;
+	}
+	
+	
+	cout<<cnt;
+	for(int i=2000;i>=0;i--){
+		if(c[i]!=0){
+			printf(" %d %.1f",i,c[i]);
 		}
 	}
-	printf("\n");
+	
 }

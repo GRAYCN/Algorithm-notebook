@@ -1,4 +1,5 @@
-// PATA1135 21' 
+// PATA1135 30'
+// 把检查黑色结点数目的代码给改了后就通过了，我觉得这个代码更符合我的认知思路。 
 
 #include<iostream>
 #include<string>
@@ -51,17 +52,7 @@ int cmp(int a,int b){
 
 int globalNumOfBlack=-1;
 void DFS(Node* root, int numOfBlack){
-	if(!flag) return;
-	if(root==NULL){
-		if(globalNumOfBlack==-1) globalNumOfBlack=numOfBlack;
-		else{
-			if(numOfBlack!=globalNumOfBlack){
-				flag=false;
-			}
-		}
-		return;
-	}
-	if(root->color=="black") numOfBlack++;
+	if(!flag || root==NULL) return;
 	if(root->color=="red"){
 		if(root->lchild && root->lchild->color=="red"){
 			flag=false;
@@ -75,6 +66,27 @@ void DFS(Node* root, int numOfBlack){
 	DFS(root->lchild,numOfBlack);
 	DFS(root->rchild,numOfBlack);
 }
+
+int checkBlackNum(Node* root){
+	if(flag==false){
+		return -1;
+	}
+	if(root==NULL){
+		return 1;
+	}
+	int l,r;
+	l=checkBlackNum(root->lchild);
+	r=checkBlackNum(root->rchild);
+	if(l != r ){
+		flag=false;
+		return -1;
+	}
+	int temp=0;
+	if(root->color=="black"){
+		temp=1;
+	} 
+	return l+temp;
+} 
 
 int main(){
 	int K,N;
@@ -91,10 +103,11 @@ int main(){
 		Node* root = build(0,N-1,0,N-1);
 		if(root->color=="red"){
 			cout<<"No"<<endl;
-//			continue;
+			//			continue;
 		}else{
 			flag=true;
 			DFS(root,0);
+			checkBlackNum(root);
 			if(flag==true){
 				cout<<"Yes\n";
 			}else{

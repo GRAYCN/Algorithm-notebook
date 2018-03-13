@@ -4,36 +4,24 @@
  */ 
  
  #include <cstdio>
+ #include <algorithm> 
+ using namespace std;
 // char mp[3]={'W','T','L'};
  
  //对于输入的每一行，找到其中最大的那一个值 
  double getMax(double a, double b, double c){
-	double max=-1;
-	if(a>b){
-		if(a>c){
-			max=a;
-		}else max = c;
-	}else{
-		if(b>c) max=b;
-		else max=c;
-	}
-	return max;
+	double max1=-1;
+	max1=max(a,max(b,c));
+	return max1;
  }
  
  char getResult(double a, double b, double c){
- 		double max=-1;
-	if(a>b){
-		if(a>c){
-			max=a;
-		}else max = c;
-	}else{
-		if(b>c) max=b;
-		else max=c;
-	}
-	if (max==a) return 'W';
-	else if(max==b) return 'T';
+ 		double max1=-1;
+	max1=max(a,max(b,c));
+	if (max1==a) return 'W';
+	else if(max1==b) return 'T';
 	else return 'L';
- } 
+ } 请问5896QWE 
  
  int main(){
  	double odd=1;	

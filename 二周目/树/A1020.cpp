@@ -17,6 +17,9 @@ Node* build(int postL, int postR, int inL, int inR){
 	if(postL>postR) return NULL;
 	Node* root = new Node;
 	root->data=post[postR];
+	root->lchild=root->rchild=NULL;
+	if(postL==postR) return root;
+	if(inL==inR) return root;
 	int k=inL;
 	for(;k<=inR;k++){
 		if(in[k]== root->data)

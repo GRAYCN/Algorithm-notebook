@@ -40,39 +40,6 @@ string deal(string s, int& e){
 	return res;
 }
 
-string deal(string s, int& e){
-	int k=0;
-	while(s.length()>0 && s[0]=='0'){
-		s.erase(s.begin());
-	}
-	if(s[0]=='.'){
-		s.erase(s.begin());
-		while(s.length()>0 && s[0]=='0'){
-			s.erase(s.begin());
-			e--;
-		}
-	}else{
-		while(k<s.length() && s[k]!='.'){
-			k++;
-			e++;
-		}
-		if(s[k]=='.'){
-			s.erase(s.begin());
-		}
-	} 
-		int num=0;
-		k=0;
-		string res;
-		while(num<n){
-			if(k<s.length()) res+=s[k++];
-			else res+='0';
-			num++;
-		}
-		return res;
-	}
-	
-}
-
 int main(){
 	string s1,s2,s3,s4;
 	cin>>n>>s1>>s2;

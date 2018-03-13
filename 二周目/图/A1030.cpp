@@ -41,7 +41,9 @@ void Dijkstra(int s){
 		}
 	}
 }
+
 int cnt=0;
+
 void DFS(int index){
 	if(index==S){
 		tempPath.push_back(index);
@@ -75,7 +77,7 @@ int main() {
 		e[a][b]=e[b][a]=distance;
 		cost[a][b]=cost[b][a]=costt;
 	}
-	Dijkstra(0);
+	Dijkstra(S);
 	DFS(D);
 	for (int i = path.size()-1; i>=0; i--) {
 		int id = path[i];
