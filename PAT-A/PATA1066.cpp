@@ -18,7 +18,7 @@ node* newNode(int data) {
 	Node->data=data;
 	Node->lchild=NULL;
 	Node->rchild=NULL;
-	Node->height=1; 
+	Node->height=1; //没有返回值
 }
 
 int getHeight(node* root) {

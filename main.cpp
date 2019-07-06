@@ -1,103 +1,82 @@
-//
-// Created by guihang on 2019/7/5.
-//
-#include<cstdio>
+
+//PATA1043
 #include<iostream>
-#include<queue>
+#include<vector>
+
 using namespace std;
-#define maxn 100
-struct Node {
-    int x,y;	//λ�ã�x,y)
-    Node(){
-    }
-    Node(int _x, int _y){
-        x=_x;
-        y=_y;
-    }
-} node;
+struct node {
+    int data;
+    node *left, *right;
+};
 
-int n,m;
-int matrix[maxn][maxn];
-bool inq[maxn][maxn];
-int X[4] = {0,0,-1,1};
-int Y[4] = {1,-1,0,0};
+void insert(node *&root, int data) {
+    if (root == NULL) {
+        root = new node;
+        root->data = data;
+        root->left = root->right = NULL;
+        return;
+    }
+    if (data < root->data) insert(root->left, data);
+    else insert(root->right, data);
+}
+vector<int> origin, pre, preM, post, postM;
 
-bool judge(int x,int y){
-    if(x>=n || x<0 || y>=m || y<0 ) return false;
-    if(inq[x][y]==true || matrix[x][y]==0) return false;
-    return true;
+void preOrder(node *root) {
+    if (root == NULL) return;
+    pre.push_back(root->data);
+    preOrder(root->left);
+    preOrder(root->right);
 }
 
-void BFS(int x, int y){
-    queue<Node> q;
-    node.x=x;
-    node.y=y;
-    q.push(node);
-    inq[x][y]=true;
-    while(!q.empty()){
-        Node now = q.front();
-        q.pop();
-        for(int i=0;i<4;i++){
-            for(int j=0;j<4;j++){
-                if(judge(now.x+X[i],now.y+Y[i])){
-                    node.x=now.x+X[i];
-                    node.y=now.y+Y[i];
-                    q.push(node);
-                    inq[now.x+X[i]][now.y+Y[i]]=true;		//don't forget here.
-                }
-            }
-        }
-    }
+void postOrder(node *root) {
+    if (root == NULL) return;
+    postOrder(root->left);
+    postOrder(root->right);
+    post.push_back(root->data);
 }
 
-void BFS2(int x, int y){
-    queue<Node> q;
-    node.x=x;
-    node.y=y;
-    q.push(node);
-    inq[x][y]=true;
-    while(!q.empty()){
-        Node now = q.front();
-        q.pop();
-        for(int i=0;i<4;i++){
-            for(int j=0;j<4;j++){
-                if(judge(now.x+X[i],now.y+Y[i])){
-                    node.x=now.x+X[i];
-                    node.y=now.y+Y[i];
-                    q.push(node);
-                    inq[now.x+X[i]][now.y+Y[i]]=true;
-                }
-            }
-        }
-    }
+void preOrderM(node *root) {
+    if (root == NULL) return;
+    preM.push_back(root->data);
+    preOrderM(root->right);
+    preOrderM(root->left);
 }
 
-int main(){
-    cin>>n>>m;
-    for(int x=0;x<n;x++){
-        for(int y=0;y<m;y++){
-            cin>>matrix[x][y];
-        }
-    }
-    int cnt=0;
-    for(int x=0;x<n;x++){
-        for(int y=0;y<m;y++){
-            if(!inq[x][y] && matrix[x][y]==1){
-                BFS(x,y);
-                cnt++;
-            }
-        }
-    }
-    cout<<cnt;
+void postOrderM(node *root) {
+    if (root == NULL) return;
+    postOrderM(root->right);
+    postOrderM(root->left);
+    postM.push_back(root->data);
 }
 
-/*
-6 7
-0 1 1 1 0 0 1
-0 0 1 0 0 0 0
-0 0 0 0 1 0 0
-0 0 0 1 1 1 0
-1 1 1 0 1 0 0
-1 1 1 1 0 0 0
-*/
 
+int main() {
+    int n, data;
+    node *root = NULL;
+    cin >> n;
+    for (int i = 0; i < n; i++) {
+        cin >> data;
+        origin.push_back(data);
+        insert(root, data);
+    }
+    preOrder(root);            //������
+    preOrderM(root);        //����������
+    postOrder(root);
+    postOrderM(root);
+
+    if (origin == pre) {
+        cout << "YES" << endl;
+        for (int i = 0; i < post.size(); i++) {
+            cout << post[i];
+            if (i != post.size() - 1) cout << " ";
+        }
+    } else if (origin == preM) {
+        cout << "YES" << endl;
+        for (int i = 0; i < postM.size(); i++) {
+            cout << postM[i];
+            if (i != postM.size() - 1) cout << " ";
+        }
+    } else {
+        cout << "NO" << endl;
+    }
+}
