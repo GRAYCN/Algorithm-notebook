@@ -11,50 +11,63 @@ bool val[SIZE];
 bool flag[11];
 using namespace std;
 vector<vector<int> >V;
+
 int main() {
+
     int N, M, v1, v2;
     scanf("%d%d%d%d", &v1, &v2,&N,&M);
-    possible[abs(v1 - v2)] = true;              // Store the difference of the previous value.
+
+    possible[abs(v1 - v2)] = true;              // Store the difference of the previous values.
     val[v1] = true;
     val[v2] = true;
     V.resize(N + 1);
+
     for (int i = 1; i <= N; i++) {
         V[i].resize(M + 1);
         for (int j = 1; j <= M; j++) {
             scanf("%d", &V[i][j]);
         }
     }
+
     vector<int>ex;
     ex.push_back(v1);
     ex.push_back(v2);
-    for (int i = 1; i <= M; i++) {
+
+//    core code
+    for (int i = 1; i <= M; i++) {          // ## note the iteration way
         for (int j = 1; j <= N; j++) {
-            if (flag[j] == true)continue;
+            if (flag[j])continue;
             int round = i, player = j, num = V[j][i];
+
             if (val[num] || !possible[num]) {           // not satisfied.
                 flag[player] = true;//跳过
                 printf("Round #%d: %d is out.\n", round, player);
             }
-            else {
+            else {                  // val[num]==false && possible[num]==true
                 val[num] = true;
+
                 for (int i = 0; i < ex.size(); i++) {
                     possible[abs(num - ex[i])] = true;      // update the difference result to possible.
                 }
                 ex.push_back(num);
+
             }
         }
+
     }
 
     vector<int>winner;
     for (int i = 1; i <= N; i++) {
         if (!flag[i])winner.push_back(i);
     }
+
     if (winner.size() > 0) {
         printf("Winner(s):");
         for (int i = 0; i < winner.size(); i++)printf(" %d", winner[i]);
     }
     else printf("No winner.");
     printf("\n");
+
     return 0;
 }
 

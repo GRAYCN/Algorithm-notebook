@@ -22,13 +22,16 @@ int main(){
     bool flag = true;
     while (bg < ed) {
         string tmp = str.substr(bg, ed);
+
         printf("%s ", tmp.c_str());
+
         if (isPrime(atoi(tmp.c_str()))) {
             printf("Yes\n");
         }else{
             printf("No\n");
             flag = false;
         }
+
         bg++;
     }
     if (flag) {
